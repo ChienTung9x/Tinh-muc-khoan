@@ -1,50 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tính lương khoán</title>
+    <title>Tính mức khoán</title>
     <style>
         body { font-family: Arial; padding: 20px; }
-        input { margin: 5px; padding: 5px; }
-        button { padding: 8px 15px; }
+        input, select { margin: 5px; padding: 5px; }
+        table { border-collapse: collapse; margin-top: 20px; }
+        td, th { border: 1px solid #ccc; padding: 8px; }
     </style>
 </head>
 <body>
 
-<h2>Hệ thống tính lương khoán</h2>
+<h2>Tính mức khoán công đoạn</h2>
 
-<label>Sản lượng:</label><br>
-<input type="number" id="sanluong"><br>
+<label>Công đoạn:</label><br>
+<input type="text" id="ten"><br>
 
 <label>SAM:</label><br>
-<input type="number" id="sam" step="0.01"><br>
+<input type="number" id="sam" step="0.001"><br>
 
-<label>Thời gian làm việc (phút):</label><br>
-<input type="number" id="thoigian"><br>
-
-<label>Đơn giá (đ/phút):</label><br>
-<input type="number" id="dongia"><br><br>
+<label>Bậc công đoạn:</label><br>
+<select id="bac">
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="NB">NB</option>
+</select><br>
 
 <button onclick="tinh()">Tính</button>
 
 <h3>Kết quả:</h3>
-<p id="ketqua"></p>
+
+<table>
+<tr>
+    <th>Tên</th>
+    <th>SAM</th>
+    <th>Bậc</th>
+    <th>Mức khoán</th>
+    <th>Khoán 1h</th>
+</tr>
+<tr id="row"></tr>
+</table>
 
 <script>
+
+// bảng giống Excel của bạn
+const mucKhoanTable = {
+    "A": 0.5,
+    "B": 0.6,
+    "C": 0.65,
+    "D": 0.7,
+    "NB": 0.75
+};
+
 function tinh() {
-    let sl = parseFloat(document.getElementById("sanluong").value);
+    let ten = document.getElementById("ten").value;
     let sam = parseFloat(document.getElementById("sam").value);
-    let tg = parseFloat(document.getElementById("thoigian").value);
-    let dg = parseFloat(document.getElementById("dongia").value);
+    let bac = document.getElementById("bac").value;
 
-    let tong_phut = sl * sam;
-    let hieu_suat = tong_phut / tg;
-    let tien = tong_phut * dg;
+    let mucKhoan = mucKhoanTable[bac];
+    let khoan1h = (60 / sam) * mucKhoan;
 
-    document.getElementById("ketqua").innerHTML =
-        "Tổng phút chuẩn: " + tong_phut.toFixed(2) + "<br>" +
-        "Hiệu suất: " + (hieu_suat * 100).toFixed(2) + "%<br>" +
-        "Tiền: " + tien.toLocaleString() + " đ";
+    document.getElementById("row").innerHTML = `
+        <td>${ten}</td>
+        <td>${sam}</td>
+        <td>${bac}</td>
+        <td>${mucKhoan}</td>
+        <td>${khoan1h.toFixed(2)}</td>
+    `;
 }
+
 </script>
 
 </body>
