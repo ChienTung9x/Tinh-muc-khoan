@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tính lương khoán</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        input { margin: 5px; padding: 5px; }
+        button { padding: 8px 15px; }
+    </style>
+</head>
+<body>
+
+<h2>Hệ thống tính lương khoán</h2>
+
+<label>Sản lượng:</label><br>
+<input type="number" id="sanluong"><br>
+
+<label>SAM:</label><br>
+<input type="number" id="sam" step="0.01"><br>
+
+<label>Thời gian làm việc (phút):</label><br>
+<input type="number" id="thoigian"><br>
+
+<label>Đơn giá (đ/phút):</label><br>
+<input type="number" id="dongia"><br><br>
+
+<button onclick="tinh()">Tính</button>
+
+<h3>Kết quả:</h3>
+<p id="ketqua"></p>
+
+<script>
+function tinh() {
+    let sl = parseFloat(document.getElementById("sanluong").value);
+    let sam = parseFloat(document.getElementById("sam").value);
+    let tg = parseFloat(document.getElementById("thoigian").value);
+    let dg = parseFloat(document.getElementById("dongia").value);
+
+    let tong_phut = sl * sam;
+    let hieu_suat = tong_phut / tg;
+    let tien = tong_phut * dg;
+
+    document.getElementById("ketqua").innerHTML =
+        "Tổng phút chuẩn: " + tong_phut.toFixed(2) + "<br>" +
+        "Hiệu suất: " + (hieu_suat * 100).toFixed(2) + "%<br>" +
+        "Tiền: " + tien.toLocaleString() + " đ";
+}
+</script>
+
+</body>
+</html>
